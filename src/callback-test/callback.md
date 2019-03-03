@@ -9,7 +9,7 @@ Node.js 异步编程的直接体现就是回调。
 function foo1(name, age, callback) { }
 function foo2(value, callback1, callback2) { }
 ```
-
+---
 ##### 阻塞代码实例
 创建一个文件 input.txt ，内容如下：
 
