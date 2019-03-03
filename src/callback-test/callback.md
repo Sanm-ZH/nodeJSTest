@@ -5,7 +5,7 @@ Node.js 异步编程的直接体现就是回调。
 例如，我们可以一边读取文件，一边执行其他命令，在文件读取完成后，我们将文件内容作为回调函数的参数返回。这样在执行代码时就没有阻塞或等待文件 I/O 操作。这就大大提高了 Node.js 的性能，可以处理大量的并发请求。
 回调函数一般作为函数的最后一个参数出现：
 
-```
+```js
 function foo1(name, age, callback) { }
 function foo2(value, callback1, callback2) { }
 ```
@@ -17,7 +17,7 @@ function foo2(value, callback1, callback2) { }
 
 创建 main_plain.js 文件, 代码如下：
 
-```
+```js
 const fs = require('fs');
 const data = fs.readFileSync('./input.txt');
 
@@ -25,7 +25,7 @@ console.log(data.toString());
 console.log('程序结束！');
 ```
 以上代码执行结果如下：
-```
+```console
 $ node main_plain.js
 每天一个helloworld，疾病远离我！
 程序结束！
@@ -37,7 +37,7 @@ $ node main_plain.js
 
 创建 main.js 文件, 代码如下：
 
-```
+```js
 const fs = require('fs')
 
 fs.readFile('./input.txt', (err, data) => {
@@ -48,7 +48,7 @@ fs.readFile('./input.txt', (err, data) => {
 console.log('程序结束！')
 ```
 以上代码执行结果如下：
-```
+```console
 $ node main.js      
 程序结束！
 每天一个helloworld，疾病远离我！
