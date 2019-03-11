@@ -17,3 +17,5 @@ Node.js 历史版本下载地址：https://nodejs.org/dist/
 #### 01.[回调函数](/src/lesson01.callback-test/callback.md)
 
 #### 02.[事件循环](/src/lesson02.eventloop-test/eventloop.md)
+
+#### 03.[事件发射](/src/lesson03.eventEmitter-test/eventEmitter.md)

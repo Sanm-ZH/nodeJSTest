@@ -1,5 +1,6 @@
-#### Node.js 创建第一个应用
-如果我们使用PHP来编写后端的代码时，需要Apache 或者 Nginx 的HTTP 服务器，并配上 mod_php5 模块和php-cgi。
+### Node.js 创建第一个应用
+
+如果我们使用 PHP 来编写后端的代码时，需要 Apache 或者 Nginx 的 HTTP 服务器，并配上 mod_php5 模块和 php-cgi。
 
 从这个角度看，整个"接收 HTTP 请求并提供 Web 页面"的需求根本不需 要 PHP 来处理。
 
@@ -15,32 +16,39 @@
 
 ---
 
-#### 创建 Node.js 应用
-##### 步骤一、引入 required 模块
+### 创建 Node.js 应用
+
+#### 步骤一、引入 required 模块
+
 我们使用 require 指令来载入 http 模块，并将实例化的 HTTP 赋值给变量 http，实例如下:
+
 ```js
-var http = require("http");
+var http = require('http')
 ```
-##### 步骤二、创建服务器
+
+#### 步骤二、创建服务器
+
 接下来我们使用 http.createServer() 方法创建服务器，并使用 listen 方法绑定 8888 端口。 函数通过 request, response 参数来接收和响应数据。
 
 实例如下，在你项目的根目录下创建一个叫 server.js 的文件，并写入以下代码：
 
 ```js
-const http = require('http');
+const http = require('http')
 
-http.createServer((request, response) => {
-  // 发送 HTTP 头部 
-  // HTTP 状态值: 200 : OK
-  // 内容类型: text/plain
-  response.writeHead(200, {'Content-Type': 'text/plain'});
+http
+	.createServer((request, response) => {
+		// 发送 HTTP 头部
+		// HTTP 状态值: 200 : OK
+		// 内容类型: text/plain
+		response.writeHead(200, { 'Content-Type': 'text/plain' })
 
-  // 发送响应数据 "Hello World"
-  response.end('Hello World\n');
-}).listen(8383);
+		// 发送响应数据 "Hello World"
+		response.end('Hello World\n')
+	})
+	.listen(8383)
 
 // 终端打印如下信息
-console.log('Server running at http://127.0.0.1:8383/');
+console.log('Server running at http://127.0.0.1:8383/')
 ```
 
 以上代码我们完成了一个可以工作的 HTTP 服务器。
@@ -48,6 +56,6 @@ console.log('Server running at http://127.0.0.1:8383/');
 使用 node 命令执行以上的代码：
 
 ```console
-$ node main.js 
+$ node main.js
 Server running at http://127.0.0.1:8383/
 ```
