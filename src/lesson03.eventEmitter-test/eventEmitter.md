@@ -52,15 +52,17 @@ EventEmitter 的每个事件由一个事件名和若干个参数组成，事件�
 
 ```js
 //event-2.js 文件
-const events = require('events')
-const emitter = new events.EventEmitter()
-emitter.on('someEvent', (arg1, arg2) => {
-	console.log('listener1', arg1, arg2)
+const eventEmitter = require('events').EventEmitter
+const event = new eventEmitter()
+
+event.on('someEvent', (arg1, arg2) => {
+  console.log('listener1', arg1, arg2)
 })
-emitter.on('someEvent', (arg1, arg2) => {
-	console.log('listener2', arg1, arg2)
+event.on('someEvent', (arg1, arg2) => {
+  console.log('listener2', arg1, arg2)
 })
-emitter.emit('someEvent', 'arg1 参数', 'arg2 参数')
+
+event.emit('someEvent', 'arg1 参数', 'arg2 参数')
 ```
 
 ```console
@@ -108,16 +110,17 @@ events.emitter.listenerCount(eventName) //推荐
 
 创建 main.js 文件，代码如下：
 ```js
+// main.js
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
 
 // 监听器 #1
-const listener1 = function listener1() {
+const listener1 = () => {
    console.log('监听器 listener1 执行。');
 }
 
 // 监听器 #2
-const listener2 = function listener2() {
+const listener2 = () => {
   console.log('监听器 listener2 执行。');
 }
 
@@ -127,7 +130,7 @@ eventEmitter.addListener('connection', listener1);
 // 绑定 connection 事件，处理函数为 listener2
 eventEmitter.on('connection', listener2);
 
-var eventListeners = eventEmitter.listenerCount('connection');
+let eventListeners = eventEmitter.listenerCount('connection');
 console.log(eventListeners + " 个监听器监听连接事件。");
 
 // 处理 connection 事件 
@@ -163,24 +166,28 @@ EventEmitter 定义了一个特殊的事件 error，它包含了错误的语义�
 
 我们一般要为会触发 error 事件的对象设置监听器，避免遇到错误后整个程序崩溃。例如：
 ```js
-var events = require('events'); 
-var emitter = new events.EventEmitter(); 
-emitter.emit('error'); 
+// error.js
+const events = require('events');
+const emitter = new events.EventEmitter();
+emitter.emit('error');
 ```
 运行时会显示以下错误：
 ```console
-node.js:201 
-throw e; // process.nextTick error, or 'error' event on first tick 
-^ 
-Error: Uncaught, unspecified 'error' event. 
-at EventEmitter.emit (events.js:50:15) 
-at Object.<anonymous> (/home/byvoid/error.js:5:9) 
-at Module._compile (module.js:441:26) 
-at Object..js (module.js:459:10) 
-at Module.load (module.js:348:31) 
-at Function._load (module.js:308:12) 
-at Array.0 (module.js:479:10) 
-at EventEmitter._tickCallback (node.js:192:40) 
+events.js:173
+    throw err; // Unhandled 'error' event
+    ^
+
+Error [ERR_UNHANDLED_ERROR]: Unhandled error.
+    at EventEmitter.emit (events.js:171:17)
+    at Object.<anonymous> (/Users/sanm/vscodeProjects/nodeJSTest/src/lesson03.eventEmitter-test/error.js:3:9)
+    at Module._compile (internal/modules/cjs/loader.js:688:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:699:10)
+    at Module.load (internal/modules/cjs/loader.js:598:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:537:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:529:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:741:12)
+    at startup (internal/bootstrap/node.js:285:19)
+    at bootstrapNodeJSCore (internal/bootstrap/node.js:739:3)
 ```
 
 ---
