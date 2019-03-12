@@ -216,7 +216,44 @@ console.log(copy)
 执行以上代码，输出结果为：
 
 ```console
-$ node bufferToJSON.js 
+$ node bufferToJSON.js
 {"type":"Buffer","data":[1,2,3,4,5]}
 <Buffer 01 02 03 04 05>
+```
+
+---
+
+#### 缓冲区合并
+
+语法
+Node 缓冲区合并的语法如下所示：
+
+> Buffer.concat(list[, totalLength])
+
+参数
+参数描述如下：
+
+- **list** - 用于合并的 Buffer 对象数组列表。
+
+- **totalLength** - 指定合并后 Buffer 对象的总长度。
+
+返回值
+返回一个多个成员合并的新 Buffer 对象。
+
+实例
+
+```js
+const buf1 = Buffer.from('张三')
+const buf2 = Buffer.from('李四')
+const buf3 = Buffer.from('王二麻子')
+const buf4 = Buffer.concat([buf1, buf2, buf3])
+
+console.log(`buf4: ${buf4.toString()}`)
+```
+
+执行以上代码，输出结果为：
+
+```console
+$ node bufferMerge.js
+buf4: 张三李四王二麻子
 ```
