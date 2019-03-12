@@ -131,3 +131,51 @@ console.log(`写入字节数：${len}`)
 $ node bufferWhite.js
 写入字节数：12
 ```
+
+---
+
+#### 从缓冲区读取数据
+
+语法
+读取 Node 缓冲区数据的语法如下所示：
+
+> buf.toString([encoding[, start[, end]]])
+
+参数
+参数描述如下：
+
+- **encoding** - 使用的编码。默认为 'utf8' 。
+
+- **start** - 指定开始读取的索引位置，默认为 0。
+
+- **end** - 结束位置，默认为缓冲区的末尾。
+
+返回值
+解码缓冲区数据并使用指定的编码返回字符串。
+
+实例
+
+```js
+// bufferOutput.js
+
+const buf = Buffer.alloc(26)
+
+for (let i = 0; i < buf.length; i++) {
+  buf[i] = i + 97
+}
+
+console.log(buf.toString('ascii')); // 输出: abcdefghijklmnopqrstuvwxyz
+console.log(buf.toString('ascii', 0, 5)); // 输出: abcde
+console.log(buf.toString('utf8', 0, 5)); // 输出: abcde
+console.log(buf.toString(undefined, 0, 5)); // 使用 'utf8' 编码, 并输出: abcde
+```
+
+执行以上代码，输出结果为：
+
+```console
+$ node bufferOutput.js
+abcdefghijklmnopqrstuvwxyz
+abcde
+abcde
+abcde
+```
