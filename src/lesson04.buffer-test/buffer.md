@@ -11,20 +11,23 @@ JavaScript 语言自身只有字符串数据类型，没有二进制数据类型
 ---
 
 #### Buffer 与字符编码
+
 Buffer 实例一般用于表示编码字符的序列，比如 UTF-8 、 UCS2 、 Base64 、或十六进制编码的数据。 通过使用显式的字符编码，就可以在 Buffer 实例与普通的 JavaScript 字符串之间进行相互转换。
 
 ```js
 // buf-1.js
 
-const buf = Buffer.from('ifelse', 'ascii');
+const buf = Buffer.from('ifelse', 'ascii')
 
 // 输出 6966656c7365
-console.log(buf.toString('hex'));
+console.log(buf.toString('hex'))
 
 // 输出 aWZlbHNl
-console.log(buf.toString('base64'));
+console.log(buf.toString('base64'))
 ```
+
 **Node.js 目前支持的字符编码包括：**
+
 - **ascii** - 仅支持 7 位 ASCII 数据。如果设置去掉高位的话，这种编码是非常快的。
 
 - **utf8** - 多字节编码的 Unicode 字符。许多网页和其他文档格式都使用 UTF-8 。
@@ -44,6 +47,7 @@ console.log(buf.toString('base64'));
 ---
 
 #### 创建 Buffer 类
+
 Buffer 提供了以下 API 来创建 Buffer 类：
 
 - **Buffer.alloc(size[, fill[, encoding]])：** 返回一个指定大小的 Buffer 实例，如果没有设置 fill，则默认填满 0
@@ -58,24 +62,72 @@ Buffer 提供了以下 API 来创建 Buffer 类：
 // bufferClass.js
 
 // 创建一个长度为 10、且用 0 填充的 Buffer。
-const buf1 = Buffer.alloc(10);
+const buf1 = Buffer.alloc(10)
+console.log('buf1', buf1)
 
-// 创建一个长度为 10、且用 0x1 填充的 Buffer。 
-const buf2 = Buffer.alloc(10, 1);
+// 创建一个长度为 10、且用 0x1 填充的 Buffer。
+const buf2 = Buffer.alloc(10, 1)
+console.log('buf2', buf2)
 
 // 创建一个长度为 10、且未初始化的 Buffer。
 // 这个方法比调用 Buffer.alloc() 更快，
 // 但返回的 Buffer 实例可能包含旧数据，
 // 因此需要使用 fill() 或 write() 重写。
-const buf3 = Buffer.allocUnsafe(10);
+const buf3 = Buffer.allocUnsafe(10)
+console.log('buf3', buf3)
 
 // 创建一个包含 [0x1, 0x2, 0x3] 的 Buffer。
-const buf4 = Buffer.from([1, 2, 3]);
+const buf4 = Buffer.from([1, 2, 3])
+console.log('buf4', buf4)
 
 // 创建一个包含 UTF-8 字节 [0x74, 0xc3, 0xa9, 0x73, 0x74] 的 Buffer。
-const buf5 = Buffer.from('tést');
+const buf5 = Buffer.from('tést')
+console.log('buf5', buf5)
 
 // 创建一个包含 Latin-1 字节 [0x74, 0xe9, 0x73, 0x74] 的 Buffer。
-const buf6 = Buffer.from('tést', 'latin1');
+const buf6 = Buffer.from('tést', 'latin1')
+console.log('buf6', buf6)
 ```
 
+---
+
+#### 写入缓冲区
+
+语法
+写入 Node 缓冲区的语法如下所示：
+
+> buf.write(string[, offset[, length]][, encoding])
+
+参数
+参数描述如下：
+
+- **string** - 写入缓冲区的字符串。
+
+- **offset** - 缓冲区开始写入的索引值，默认为 0 。
+
+- **length** - 写入的字节数，默认为 buffer.length
+
+- **encoding** - 使用的编码。默认为 'utf8' 。
+
+根据 encoding 的字符编码写入 string 到 buf 中的 offset 位置。 length 参数是写入的字节数。 如果 buf 没有足够的空间保存整个字符串，则只会写入 string 的一部分。 只部分解码的字符不会被写入。
+
+返回值
+返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。
+
+实例
+
+```js
+// bufferWhite.js
+
+const buf = Buffer.alloc(256)
+const len = buf.write('if(){}else{}')
+
+console.log(`写入字节数：${len}`)
+```
+
+执行以上代码，输出结果为：
+
+```console
+$ node bufferWhite.js
+写入字节数：12
+```
