@@ -55,8 +55,8 @@ Buffer 提供了以下 API 来创建 Buffer 类：
 - **Buffer.allocUnsafeSlow(size)**
 - **Buffer.from(array)：** 返回一个被 array 的值初始化的新的 Buffer 实例（传入的 array 的元素只能是数字，不然就会自动被 0 覆盖）
 - **Buffer.from(arrayBuffer[, byteOffset[, length]])：** 返回一个新建的与给定的 ArrayBuffer 共享同一内存的 Buffer。
-- **Buffer.from(buffer)：** 复制传入的 Buffer 实例的数据，并返回一个新的 Buffer 实例
-- **Buffer.from(string[, encoding])：** 返回一个被 string 的值初始化的新的 Buffer 实例
+- **Buffer.from(buffer)：** 复制传入的 Buffer 实例的数据，并返回一个新的 Buffer ##### 实例
+- **Buffer.from(string[, encoding])：** 返回一个被 string 的值初始化的新的 Buffer ##### 实例
 
 ```js
 // bufferClass.js
@@ -93,12 +93,14 @@ console.log('buf6', buf6)
 
 #### 写入缓冲区
 
-语法
+##### 语法
+
 写入 Node 缓冲区的语法如下所示：
 
 > buf.write(string[, offset[, length]][, encoding])
 
-参数
+##### 参数
+
 参数描述如下：
 
 - **string** - 写入缓冲区的字符串。
@@ -111,10 +113,11 @@ console.log('buf6', buf6)
 
 根据 encoding 的字符编码写入 string 到 buf 中的 offset 位置。 length 参数是写入的字节数。 如果 buf 没有足够的空间保存整个字符串，则只会写入 string 的一部分。 只部分解码的字符不会被写入。
 
-返回值
+##### 返回值
+
 返回实际写入的大小。如果 buffer 空间不足， 则只会写入部分字符串。
 
-实例
+##### 实例
 
 ```js
 // bufferWhite.js
@@ -136,12 +139,14 @@ $ node bufferWhite.js
 
 #### 从缓冲区读取数据
 
-语法
+##### 语法
+
 读取 Node 缓冲区数据的语法如下所示：
 
 > buf.toString([encoding[, start[, end]]])
 
-参数
+##### 参数
+
 参数描述如下：
 
 - **encoding** - 使用的编码。默认为 'utf8' 。
@@ -150,10 +155,11 @@ $ node bufferWhite.js
 
 - **end** - 结束位置，默认为缓冲区的末尾。
 
-返回值
+##### 返回值
+
 解码缓冲区数据并使用指定的编码返回字符串。
 
-实例
+##### 实例
 
 ```js
 // bufferOutput.js
@@ -184,17 +190,19 @@ abcde
 
 #### 将 Buffer 转换为 JSON 对象
 
-语法
+##### 语法
+
 将 Node Buffer 转换为 JSON 对象的函数语法格式如下：
 
 > buf.toJSON()
 
 当字符串化一个 Buffer 实例时，JSON.stringify() 会隐式地调用该 toJSON()。
 
-返回值
+##### 返回值
+
 返回 JSON 对象。
 
-实例
+##### 实例
 
 ```js
 // bufferToJSON.js
@@ -225,22 +233,25 @@ $ node bufferToJSON.js
 
 #### 缓冲区合并
 
-语法
+##### 语法
+
 Node 缓冲区合并的语法如下所示：
 
 > Buffer.concat(list[, totalLength])
 
-参数
+##### 参数
+
 参数描述如下：
 
 - **list** - 用于合并的 Buffer 对象数组列表。
 
 - **totalLength** - 指定合并后 Buffer 对象的总长度。
 
-返回值
+##### 返回值
+
 返回一个多个成员合并的新 Buffer 对象。
 
-实例
+##### 实例
 
 ```js
 const buf1 = Buffer.from('张三')
@@ -256,4 +267,46 @@ console.log(`buf4: ${buf4.toString()}`)
 ```console
 $ node bufferMerge.js
 buf4: 张三李四王二麻子
+```
+
+---
+
+#### 缓冲区比较
+
+##### 语法
+
+Node Buffer 比较的函数语法如下所示, 该方法在 Node.js v0.12.2 版本引入：
+
+> buf.compare(otherBuffer);
+
+##### 参数
+
+参数描述如下：
+
+- **otherBuffer** - 与 buf 对象比较的另外一个 Buffer 对象。
+
+##### 返回值
+
+返回一个数字，表示 buf 在 otherBuffer 之前，之后或相同。
+
+##### 实例
+
+```js
+const buffer1 = Buffer.from('ABC')
+const buffer2 = Buffer.from('ABCD')
+const result = buffer1.compare(buffer2)
+
+if (result < 0) {
+	console.log(`${buffer1} 在 ${buffer2} 之前`)
+} else if (result == 0) {
+	console.log(`${buffer1} 与 ${buffer2} 相同`)
+} else {
+	console.log(`${buffer1} 在 ${buffer2} 之后`)
+}
+```
+
+执行以上代码，输出结果为：
+
+```console
+ABC在ABCD之前
 ```
