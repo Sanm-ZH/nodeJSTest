@@ -33,7 +33,7 @@ Node.js，Stream 有四种流类型：
 代码如下：
 
 ```js
-// stream-1.js
+// stream-read.js
 
 const fs = require('fs')
 let data = ''
@@ -64,5 +64,53 @@ console.log('执行完毕')
 
 ```console
 执行完毕
+每天一个helloworld，疾病远离我！
+```
+
+---
+
+#### 写入流
+
+代码如下：
+
+```js
+// stream-write.js
+
+const fs = require('fs')
+const data = '每天一个helloworld，疾病远离我！'
+
+// 创建一个可以写入的流，写入到文件 output.txt 中
+const writeStream = fs.createWriteStream('output.txt')
+
+// 使用 utf8 编码写入数据
+writeStream.write(data, 'UTF8')
+
+// 标记文件末尾
+writeStream.end()
+
+// 处理流事件 --> data, end, and error
+writeStream.on('finish', () => {
+	console.log('写入完成。')
+})
+
+writeStream.on('error', err => {
+	console.log(err.stack)
+})
+
+console.log('执行完毕')
+```
+
+以上程序会将 data 变量的数据写入到 output.txt 文件中。代码执行结果如下：
+
+```console
+$ node stream-write.js
+执行完毕
+写入完成。
+```
+
+查看 output.txt 文件的内容：
+
+```vim
+$ cat output.txt
 每天一个helloworld，疾病远离我！
 ```
