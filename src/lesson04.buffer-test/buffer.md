@@ -292,6 +292,8 @@ Node Buffer 比较的函数语法如下所示, 该方法在 Node.js v0.12.2 版�
 ##### 实例
 
 ```js
+// bufferCompare.js
+
 const buffer1 = Buffer.from('ABC')
 const buffer2 = Buffer.from('ABCD')
 const result = buffer1.compare(buffer2)
@@ -309,4 +311,50 @@ if (result < 0) {
 
 ```console
 ABC在ABCD之前
+```
+
+---
+
+#### 拷贝缓冲区
+
+##### 语法
+
+Node 缓冲区拷贝语法如下所示：
+
+> buf.copy(targetBuffer[, targetStart[, sourceStart[, sourceEnd]]])
+
+##### 参数
+
+参数描述如下：
+
+- **targetBuffer** - 要拷贝的 Buffer 对象。
+
+- **targetStart** - 数字, 可选, 默认: 0
+
+- **sourceStart** - 数字, 可选, 默认: 0
+
+- **sourceEnd** - 数字, 可选, 默认: buffer.length
+
+##### 返回值
+
+没有返回值。
+
+##### 实例
+
+```js
+// bufferCopy.js
+
+const buf1 = Buffer.from('******* if(){}else{}')
+const buf2 = Buffer.from('Sanm-ZH')
+
+//将 buf2 插入到 buf1 指定位置上
+buf2.copy(buf1, 0)
+
+console.log(buf1.toString())
+```
+
+执行以上代码，输出结果为：
+
+```console
+Sanm-ZH if(){}else{}
 ```
