@@ -111,7 +111,7 @@ $ node stream-write.js
 查看 output.txt 文件的内容：
 
 ```vim
-$ shell output.txt
+$ cat output.txt
 每天一个helloworld，疾病远离我！
 ```
 
@@ -159,7 +159,7 @@ $ node stream-pipe.js
 
 查看 output-2.txt 文件的内容：
 
-```shell
+```vim
 $ cat output-2.txt
 每天一个helloworld，疾病远离我！
 嘤嘤嘤
