@@ -111,6 +111,56 @@ $ node stream-write.js
 查看 output.txt 文件的内容：
 
 ```vim
-$ cat output.txt
+$ shell output.txt
 每天一个helloworld，疾病远离我！
+```
+
+---
+
+#### 管道流
+
+管道提供了一个输出流到输入流的机制。通常我们用于从一个流中获取数据并将数据传递到另外一个流中。
+
+我们把文件比作装水的桶，而水就是文件里的内容，我们用一根管子(pipe)连接两个桶使得水从一个桶流入另一个桶，这样就慢慢的实现了大文件的复制过程。
+
+以下实例我们通过读取一个文件内容并将内容写入到另外一个文件中。
+
+设置 input-2.txt 文件内容如下：
+
+> 每天一个 helloworld，疾病远离我！
+> 嘤嘤嘤
+
+代码如下：
+
+```js
+// stream-pipe.js
+
+const fs = require('fs')
+
+// 创建一个可读流
+const readerStream = fs.createReadStream('./input-2.txt')
+
+// 创建一个可写流
+const writerStream = fs.createWriteStream('output-2.txt')
+
+// 管道读写操作
+// 读取 input-2.txt 文件内容，并将内容写入 output-2.txt 文件中
+readerStream.pipe(writerStream)
+
+console.log('执行完毕')
+```
+
+代码执行结果如下：
+
+```console
+$ node stream-pipe.js
+执行完毕
+```
+
+查看 output-2.txt 文件的内容：
+
+```shell
+$ cat output-2.txt
+每天一个helloworld，疾病远离我！
+嘤嘤嘤
 ```
