@@ -358,3 +358,70 @@ console.log(buf1.toString())
 ```console
 Sanm-ZH if(){}else{}
 ```
+
+---
+
+#### 缓冲区裁剪
+
+Node 缓冲区裁剪语法如下所示：
+
+> buf.slice([start[, end]])
+
+#### 参数
+
+参数描述如下：
+
+- **start** - 数字, 可选, 默认: 0
+
+- **end** - 数字, 可选, 默认: buffer.length
+
+##### 返回值
+
+返回一个新的缓冲区，它和旧缓冲区指向同一块内存，但是从索引 start 到 end 的位置剪切。
+
+##### 实例
+
+```js
+// bufferSlice_length.js
+
+const buf1 = Buffer.from('sanm-zh')
+// 剪切缓冲区
+const buf2 = buf1.slice(0, 2)
+console.log('buffer_slice: ' + buf2.toString())
+```
+
+执行以上代码，输出结果为：
+
+```console
+buffer_slice: sa
+```
+
+---
+
+#### 缓冲区长度
+
+##### 语法
+
+Node 缓冲区长度计算语法如下所示：
+
+> buf.length;
+
+##### 返回值
+
+返回 Buffer 对象所占据的内存长度。
+
+##### 实例
+
+```js
+// bufferSlice_length.js
+
+const buf3 = Buffer.from('if(){}else{}')
+//  缓冲区长度
+console.log('buffer_length: ' + buf3.length)
+```
+
+执行以上代码，输出结果为：
+
+```console
+buffer_length: 12
+```
