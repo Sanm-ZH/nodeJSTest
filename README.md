@@ -28,3 +28,5 @@ Node.js 历史版本下载地址：https://nodejs.org/dist/
 5. ##### [缓冲区](/src/lesson04.buffer-test/buffer.md)
 
 6. ##### [流](/src/lesson05.stream-test/stream.md)
+   
+7. ##### [模块系统](/src/lesson06.modules-test/module.md)
