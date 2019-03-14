@@ -164,3 +164,59 @@ $ cat output-2.txt
 每天一个helloworld，疾病远离我！
 嘤嘤嘤
 ```
+
+---
+
+#### 链式流
+
+链式是通过连接输出流到另外一个流并创建多个流操作链的机制。链式流一般用于管道操作。
+
+接下来我们就是用管道和链式来压缩和解压文件。
+
+代码如下：
+
+```js
+// compress.js
+
+const fs = require('fs')
+const zlib = require('zlib')
+
+// 压缩 input.txt 文件为 input.txt.gz
+fs.createReadStream('./input.txt')
+  .pipe(zlib.createGzip())
+  .pipe(fs.createWriteStream('./input.txt.gz'))
+
+console.log('压缩完成')
+```
+
+代码执行结果如下：
+
+```console
+$ node compress.js
+压缩完成
+```
+
+执行完以上操作后，当前目录下生成了 input.txt 的压缩文件 input.txt.gz。
+
+代码如下：
+
+```js
+// decompress.js
+
+const fs = require('fs')
+const zlib = require('zlib')
+
+// 解压 input.txt.gz 文件为 input-gz.txt
+fs.createReadStream('./input.txt.gz')
+  .pipe(zlib.createGunzip())
+  .pipe(fs.createWriteStream('./input-gz.txt'))
+
+console.log('解压完成')
+```
+
+代码执行结果如下：
+
+```console
+$ node decompress.js
+解压完成
+```
