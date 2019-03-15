@@ -34,3 +34,5 @@ Node.js 历史版本下载地址：https://nodejs.org/dist/
 8. ##### [函数](/src/lesson07.function-test/function.md)
 
 9. ##### [路由](/src/lesson08.router-test/router.md)
+
+10. ##### [全局对象](/src/lesson09.globalObject-test/globalObject.md) 
