@@ -398,3 +398,78 @@ $ node file-ftruncate.js
 文件关闭成功！
 ```
 ---
+#### 删除文件
+##### 语法
+以下为删除文件的语法格式：
+
+`fs.unlink(path, callback)`
+##### 参数
+参数使用说明如下：
+
+- **path** - 文件路径。
+
+- **callback** - 回调函数，没有参数。
+
+##### 实例
+文件内容为：
+```text
+每天一个helloworld，疾病远离我！
+```
+代码如下所示：
+```js
+const fs = require("fs");
+
+console.log("准备删除文件！");
+fs.unlink('input.txt', function(err) {
+   if (err) return console.error(err);
+   console.log("文件删除成功！");
+});
+```
+以上代码执行结果如下：
+```
+准备删除文件！
+文件删除成功！
+```
+再去查看 input.txt 文件，发现已经不存在了。
+
+---
+#### 创建目录
+##### 语法
+以下为创建目录的语法格式：
+
+`fs.mkdir(path[, options], callback)`
+##### 参数
+参数使用说明如下：
+- **path** - 文件路径。
+- **options** 参数可以是：
+  - **recursive** - 是否以递归的方式创建目录，默认为 false。
+  - **mode** - 设置目录权限，默认为 0777。
+- **callback** - 回调函数，没有参数。
+##### 实例
+代码如下所示:
+```js
+// file-mkdir.js
+
+const fs = require("fs");
+// 加前缀 目录必须存在
+console.log("创建目录 test/");
+fs.mkdir("./test/",function(err){
+   if (err) {
+       return console.error(err);
+   }
+   console.log("目录创建成功。");
+});
+```
+执行结果：
+```
+$ node file-mkdir.js    
+创建目录 test/
+目录创建成功。
+```
+可以添加 recursive: true 参数，不管创建的目录 /tmp 和 /tmp/a 是否存在：
+```js
+fs.mkdir('/tmp/a/apple', { recursive: true }, (err) => {
+  if (err) throw err;
+});
+```
+---
