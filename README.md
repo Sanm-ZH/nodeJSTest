@@ -38,3 +38,5 @@ Node.js 历史版本下载地址：https://nodejs.org/dist/
 10. ##### [全局对象](/src/lesson09.globalObject-test/globalObject.md) 
 
 11. ##### [常用工具](/src/lesson10.util-test/util.md)
+
+12. ##### [文件模块](/src/lesson11.fs-test/fs.md)

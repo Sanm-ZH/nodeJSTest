@@ -473,3 +473,81 @@ fs.mkdir('/tmp/a/apple', { recursive: true }, (err) => {
 });
 ```
 ---
+#### 读取目录
+##### 语法
+以下为读取目录的语法格式：
+
+`fs.readdir(path, callback)`
+##### 参数
+参数使用说明如下：
+
+- **path** - 文件路径。
+
+- **callback** - 回调函数，回调函数带有两个参数err, files，err 为错误信息，files 为 目录下的文件数组列表。
+
+##### 实例
+代码如下所示：
+```js
+var fs = require("fs");
+
+console.log("查看 /tmp 目录");
+fs.readdir("/tmp/",function(err, files){
+   if (err) {
+       return console.error(err);
+   }
+   files.forEach( function (file){
+       console.log( file );
+   });
+});
+```
+执行结果：
+```
+$ node file.js 
+查看 /tmp 目录
+input.out
+output.out
+test
+test.txt
+```
+---
+#### 删除目录
+##### 语法
+以下为删除目录的语法格式：
+
+`fs.rmdir(path, callback)`
+##### 参数
+参数使用说明如下：
+
+- **path** - 文件路径。
+
+- **callback** - 回调函数，没有参数。
+
+##### 实例
+代码如下所示：
+```
+var fs = require("fs");
+// 执行前创建一个空的 /tmp/test 目录
+console.log("准备删除目录 /tmp/test");
+fs.rmdir("/tmp/test",function(err){
+   if (err) {
+       return console.error(err);
+   }
+   console.log("读取 /tmp 目录");
+   fs.readdir("/tmp/",function(err, files){
+      if (err) {
+          return console.error(err);
+      }
+      files.forEach( function (file){
+          console.log( file );
+      });
+   });
+});
+```
+执行结果：
+```
+$ node file.js 
+准备删除目录 /tmp/test
+读取 /tmp 目录
+……
+```
+---
