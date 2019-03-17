@@ -325,7 +325,7 @@ fs.open('input.txt', 'r+', function (err, fd) {
   });
 });
 ```
-以上代码执行结果如下：
+执行结果：
 ```
 $ node file-close.js 
 准备打开文件！
@@ -334,5 +334,67 @@ $ node file-close.js
 每天一个helloworld，疾病远离我！
 文件读取
 文件关闭成功
+```
+---
+#### 截取文件
+##### 语法
+以下为异步模式下截取文件的语法格式：
+
+`fs.ftruncate(fd, len, callback)`
+该方法使用了文件描述符来读取文件。
+
+##### 参数
+参数使用说明如下：
+- **fd** - 通过 fs.open() 方法返回的文件描述符。
+- **len** - 文件内容截取的长度。
+- **callback** - 回调函数，没有参数。
+##### 实例
+input-ftruncate.txt 文件内容为：
+```text
+每天一个helloworld，疾病远离我！
+```
+代码如下所示：
+```js
+// file-ftruncate.js
+
+const fs = require("fs");
+const buf = new Buffer.alloc(1024);
+
+console.log("准备打开文件！");
+fs.open('input-ftruncate.txt', 'r+', function (err, fd) {
+  if (err) return console.error(err);
+  console.log("文件打开成功！");
+  console.log("截取13字节内的文件内容，超出部分将被去除。");
+
+  // 截取文件
+  fs.ftruncate(fd, 13, function (err) {
+    if (err) console.log(err);
+    console.log("文件截取成功。");
+    console.log("读取相同的文件");
+    fs.read(fd, buf, 0, buf.length, 0, function (err, bytes) {
+      if (err) console.log(err);
+
+      // 仅输出读取的字节
+      if (bytes > 0) console.log(buf.slice(0, bytes).toString());
+
+      // 关闭文件
+      fs.close(fd, function (err) {
+        if (err) console.log(err);
+        console.log("文件关闭成功！");
+      });
+    });
+  });
+});
+```
+执行结果：
+```
+$ node file-ftruncate.js 
+准备打开文件！
+文件打开成功！
+截取13字节内的文件内容，超出部分将被去除。
+文件截取成功。
+读取相同的文件
+每天一个h
+文件关闭成功！
 ```
 ---
