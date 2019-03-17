@@ -1,7 +1,9 @@
 const fs = require('fs');
 
-fs.stat('input.txt', (err, stats) => {
-  if (err) return console.error(err);
+fs.stat('input.txt', function (err, stats) {
+  if (err) {
+    return console.error(err);
+  }
   console.log(stats);
   console.log("读取文件信息成功！");
 
