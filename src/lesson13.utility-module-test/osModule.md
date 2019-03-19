@@ -57,7 +57,7 @@ console.log(`totalmem: ${os.totalmem()} bytes`)
 // 系统空闲内存
 console.log(`freemem: ${os.freemem()} bytes`)
 ```
-代码执行结果如下：
+执行结果：
 ```
 $ node os-test.js
 endianness: LE
@@ -69,3 +69,5 @@ uptime: 451575
 totalmem: 17062428672 bytes
 freemem: 9184591872 bytes
 ```
+---
+**[工具模块](/src/lesson13.utility-module-test/utilityModule.md)**
