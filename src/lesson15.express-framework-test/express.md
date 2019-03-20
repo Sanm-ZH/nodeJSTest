@@ -1,4 +1,5 @@
 ### Express 简介
+##### server.address().address 会返回 : 的问题是因为默认ipv6导致的
 Express 是一个简洁而灵活的 node.js Web应用框架, 提供了一系列强大特性帮助你创建各种 Web 应用，和丰富的 HTTP 工具。
 
 使用 Express 可以快速地搭建一个完整功能的网站。
@@ -170,3 +171,258 @@ var server = app.listen(8081, function () {
  
 })
 ```
+---
+#### 静态文件
+Express 提供了内置的中间件 express.static 来设置静态文件如：图片， CSS, JavaScript 等。
+
+你可以使用 express.static 中间件来设置静态文件路径。例如，如果你将图片， CSS, JavaScript 文件放在 public 目录下，你可以这么写：
+```js
+app.use(express.static('public'));
+```
+我们可以到 public/images 目录下放些图片,如下所示：
+```
+node_modules
+server.js
+public/
+public/images
+public/images/logo.png
+```
+让我们再修改下 "Hello World" 应用添加处理静态文件的功能。
+
+创建 express_demo3.js 文件，代码如下所示：
+```js
+var express = require('express');
+var app = express();
+ 
+app.use(express.static('public'));
+ 
+app.get('/', function (req, res) {
+   res.send('Hello World');
+})
+ 
+var server = app.listen(8081, function () {
+ 
+  var host = server.address().address
+  var port = server.address().port
+ 
+  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+ 
+})
+```
+执行以上代码：
+```
+$ node express_demo3.js 
+应用实例，访问地址为 http://0.0.0.0:8081
+```
+---
+#### GET 方法
+以下实例演示了在表单中通过 GET 方法提交两个参数，我们可以使用 server.js 文件内的 process_get 路由器来处理输入：
+
+index.htm 文件代码：
+```html
+<html>
+<body>
+<form action="http://127.0.0.1:8081/process_get" method="GET">
+First Name: <input type="text" name="first_name">  <br>
+ 
+Last Name: <input type="text" name="last_name">
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+```
+server.js 文件代码：
+```js
+var express = require('express');
+var app = express();
+ 
+app.use(express.static('public'));
+ 
+app.get('/index.htm', function (req, res) {
+   res.sendFile( __dirname + "/" + "index.htm" );
+})
+ 
+app.get('/process_get', function (req, res) {
+ 
+   // 输出 JSON 格式
+   var response = {
+       "first_name":req.query.first_name,
+       "last_name":req.query.last_name
+   };
+   console.log(response);
+   res.end(JSON.stringify(response));
+})
+ 
+var server = app.listen(8081, function () {
+ 
+  var host = server.address().address
+  var port = server.address().port
+ 
+  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+ 
+})
+```
+执行以上代码：
+```
+node server.js 
+应用实例，访问地址为 http://0.0.0.0:8081
+```
+---
+#### POST 方法
+以下实例演示了在表单中通过 POST 方法提交两个参数，我们可以使用 server.js 文件内的 process_post 路由器来处理输入：
+
+index.htm 文件代码：
+```html
+<html>
+<body>
+<form action="http://127.0.0.1:8081/process_post" method="POST">
+First Name: <input type="text" name="first_name">  <br>
+ 
+Last Name: <input type="text" name="last_name">
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+```
+server.js 文件代码：
+```js
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+ 
+// 创建 application/x-www-form-urlencoded 编码解析
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+ 
+app.use(express.static('public'));
+ 
+app.get('/index.htm', function (req, res) {
+   res.sendFile( __dirname + "/" + "index.htm" );
+})
+ 
+app.post('/process_post', urlencodedParser, function (req, res) {
+ 
+   // 输出 JSON 格式
+   var response = {
+       "first_name":req.body.first_name,
+       "last_name":req.body.last_name
+   };
+   console.log(response);
+   res.end(JSON.stringify(response));
+})
+ 
+var server = app.listen(8081, function () {
+ 
+  var host = server.address().address
+  var port = server.address().port
+ 
+  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+ 
+})
+```
+执行以上代码：
+```
+$ node server.js
+应用实例，访问地址为 http://0.0.0.0:8081
+```
+---
+#### 文件上传
+以下我们创建一个用于上传文件的表单，使用 POST 方法，表单 enctype 属性设置为 multipart/form-data。
+
+index.htm 文件代码：
+```html
+<html>
+<head>
+<title>文件上传表单</title>
+</head>
+<body>
+<h3>文件上传：</h3>
+选择一个文件上传: <br />
+<form action="/file_upload" method="post" enctype="multipart/form-data">
+<input type="file" name="image" size="50" />
+<br />
+<input type="submit" value="上传文件" />
+</form>
+</body>
+</html>
+```
+server.js 文件代码：
+```js
+var express = require('express');
+var app = express();
+var fs = require("fs");
+ 
+var bodyParser = require('body-parser');
+var multer  = require('multer');
+ 
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ dest: '/tmp/'}).array('image'));
+ 
+app.get('/index.htm', function (req, res) {
+   res.sendFile( __dirname + "/" + "index.htm" );
+})
+ 
+app.post('/file_upload', function (req, res) {
+ 
+   console.log(req.files[0]);  // 上传的文件信息
+ 
+   var des_file = __dirname + "/" + req.files[0].originalname;
+   fs.readFile( req.files[0].path, function (err, data) {
+        fs.writeFile(des_file, data, function (err) {
+         if( err ){
+              console.log( err );
+         }else{
+               response = {
+                   message:'File uploaded successfully', 
+                   filename:req.files[0].originalname
+              };
+          }
+          console.log( response );
+          res.end( JSON.stringify( response ) );
+       });
+   });
+})
+ 
+var server = app.listen(8081, function () {
+ 
+  var host = server.address().address
+  var port = server.address().port
+ 
+  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+ 
+})
+```
+执行以上代码：
+```
+$ node server.js 
+应用实例，访问地址为 http://0.0.0.0:8081
+```
+---
+#### Cookie 管理
+我们可以使用中间件向 Node.js 服务器发送 cookie 信息，以下代码输出了客户端发送的 cookie 信息：
+
+express_cookie.js 文件代码：
+```js
+// express_cookie.js 文件
+var express      = require('express')
+var cookieParser = require('cookie-parser')
+var util = require('util');
+ 
+var app = express()
+app.use(cookieParser())
+ 
+app.get('/', function(req, res) {
+    console.log("Cookies: " + util.inspect(req.cookies));
+})
+ 
+app.listen(8081)
+```
+执行以上代码：
+```
+$ node express_cookie.js 
+```
+---
+#### 相关资料
+Express官网： http://expressjs.com/
+Express4.x API 中文版： Express4.x API Chinese
+Express4.x API：http://expressjs.com/zh-cn/4x/api.html
