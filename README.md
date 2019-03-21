@@ -52,3 +52,5 @@ Node.js 历史版本下载地址：https://nodejs.org/dist/
 17. ##### [RESTful API](/src/lesson16.RESTfulAPI-test/RESTfulAPI.md)
 
 18. ##### [多进程]('/src/lesson17.multiProcess-test/multiProcess.md)
+
+19. ##### [JXcore 打包](/src/lesson18.JXcore-test/JXcore.md)
