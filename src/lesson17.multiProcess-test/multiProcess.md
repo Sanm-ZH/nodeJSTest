@@ -82,3 +82,65 @@ stdout: 进程 2 执行。
 
 stderr: 
 ```
+---
+#### fork 方法
+child_process.fork 是 spawn() 方法的特殊形式，用于创建进程，语法格式如下：
+```
+child_process.fork(modulePath[, args][, options])
+```
+##### 参数
+参数说明如下：
+
+- **modulePath**： String，将要在子进程中运行的模块
+- **args**： Array 字符串参数数组
+- **options**：Object
+  - cwd String 子进程的当前工作目录
+  - env Object 环境变量键值对
+  - execPath String 创建子进程的可执行文件
+  - execArgv Array 子进程的可执行文件的字符串参数数组（默认：process.execArgv）
+  - silent Boolean 如果为true，子进程的stdin，stdout和stderr将会被- 关联至父进程，否则，它们将会从父进程中继承。（默认为：false）
+  - uid Number 设置用户进程的 ID
+  - gid Number 设置进程组的 ID
+
+返回的对象除了拥有ChildProcess实例的所有方法，还有一个内建的通信信道。
+
+#### 实例
+让我们创建两个 js 文件 support_2.js 和 master_2.js。
+```js
+// support_2.js
+console.log("进程 " + process.argv[2] + " 执行。" );
+```
+```js
+// master_2.js
+const fs = require('fs');
+const child_process = require('child_process');
+ 
+for(var i=0; i<3; i++) {
+   var workerProcess = child_process.spawn('node', ['support.js', i]);
+ 
+   workerProcess.stdout.on('data', function (data) {
+      console.log('stdout: ' + data);
+   });
+ 
+   workerProcess.stderr.on('data', function (data) {
+      console.log('stderr: ' + data);
+   });
+ 
+   workerProcess.on('close', function (code) {
+      console.log('子进程已退出，退出码 '+code);
+   });
+}
+```
+执行以上代码，输出结果为：
+```
+$ node master.js stdout: 进程 0 执行。
+
+子进程已退出，退出码 0
+stdout: 进程 1 执行。
+
+子进程已退出，退出码 0
+stdout: 进程 2 执行。
+
+子进程已退出，退出码 0
+```
+---
